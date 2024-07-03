@@ -128,4 +128,3 @@ st.markdown(
     """.format(st.image("/Users/mirkoxoxo/Documents/Cerkita/cerkitaweb_logo.png", use_column_width=True)),
     unsafe_allow_html=True
 ) # Mostrar el logo de la marca
-)
