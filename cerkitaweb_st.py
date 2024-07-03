@@ -55,7 +55,7 @@ st.title("¡Bienvenido a *Cerkita Web*! 😃")
 st.write("Descubre los mejores sabores locales cerca de la **PUCP** sin complicaciones. Disfruta de auténtica comida callejera en un ambiente acogedor y lleno de energía. Nuestro sitio web te ayudará a encontrar rápidamente puestos de comida ambulante, ahorrándote tiempo y ofreciendo opciones para todos los bolsillos. Cada bocado cuenta una historia de tradición y pasión culinaria. ¡Sumérgete en esta experiencia única!")
 
 st.write("### ✅ Suscríbete a nuestro Newsletter")
-st.write("¡Mantente al tanto de nuestras promociones y novedades! Suscríbete a nuestro boletín y descubre las delicias callejeras cerca de la PUCP. ¡No te lo pierdas!")
+st.write("¡Mantente al tanto de nuestras promociones y novedades! Suscríbete a nuestro boletín y descubre las delicias callejeras cerca de la **PUCP**. ¡No te lo pierdas!")
 
 nombre = st.text_input("Ingresa tu nombre:")
 email = st.text_input("Ingresa tu correo electrónico:")
