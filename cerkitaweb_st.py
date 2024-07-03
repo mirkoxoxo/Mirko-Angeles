@@ -113,6 +113,8 @@ for index, promocion in df_promociones.iterrows():
     st.write(f"*Fecha: {promocion['fecha']}*")
     st.write("---")
 
+st.image("https://raw.githubusercontent.com/mirkoxoxo/Mirko-Angeles/main/cerkitaweb_logo.png", width=100)
+
 st.markdown(
     """
     <div class="footer">
