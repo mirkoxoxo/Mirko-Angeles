@@ -97,9 +97,9 @@ for idx, row in df.iterrows():
 st_folium(m)
 
 promociones = [
-    {"titulo": "Señor Bigotes 🍔", "descripcion": "**OFERTA EXCLUSIVA**: Mostrando la página de *Cerkita Web* obtendrás un 50% de descuento en toda nuestra carta de hamburguesas. Además, si comprás más de dos hamburguesas, obtendras una botella de refrescante chicha morada totalmente **GRATIS**. ¡No dejes pasar esta oportunidad de disfrutar 😋 y ahorrar al máximo 🤑 !", "imagen": "/Users/mirkoxoxo/Documents/Cerkita/señor_bigotes_final.png", "fecha": "03/07/2024"},
-    {"titulo": "Canchitas por Samuel 🍿", "descripcion": "**OFERTA EXCLUSIVA**: Mostrando la página de *Cerkita Web* disfrutarás de un 30% de descuento en todas nuestras deliciosas canchitas, tanto dulces como saladas. ¡Aprovecha esta oportunidad 😉 para saborear tus favoritas a un precio de locura!", "imagen": "/Users/mirkoxoxo/Documents/Cerkita/canchitas_final.png", "fecha": "03/07/2024"},
-    {"titulo": "Camilón 🌭", "descripcion": "**OFERTA EXCLUSIVA**: Mostrando la página de *Cerkita Web* accederás a un 20% de descuento en toda nuestra carta, la cual incluye hamburguesas jugosas, salchipapas crujientes, pollo broaster irresistible y mucho más. 😱 ¡Disfruta de tu antojo favorito a un precio increíble! 😎", "imagen": "/Users/mirkoxoxo/Documents/Cerkita/camilón_final.png", "fecha": "03/07/2024"}
+    {"titulo": "Señor Bigotes 🍔", "descripcion": "**OFERTA EXCLUSIVA**: Mostrando la página de *Cerkita Web* obtendrás un 50% de descuento en toda nuestra carta de hamburguesas. Además, si comprás más de dos hamburguesas, obtendras una botella de refrescante chicha morada totalmente **GRATIS**. ¡No dejes pasar esta oportunidad de disfrutar 😋 y ahorrar al máximo 🤑 !", "imagen": "https://raw.githubusercontent.com/mirkoxoxo/Mirko-Angeles/main/señor_bigotes_final.png", "fecha": "03/07/2024"},
+    {"titulo": "Canchitas por Samuel 🍿", "descripcion": "**OFERTA EXCLUSIVA**: Mostrando la página de *Cerkita Web* disfrutarás de un 30% de descuento en todas nuestras deliciosas canchitas, tanto dulces como saladas. ¡Aprovecha esta oportunidad 😉 para saborear tus favoritas a un precio de locura!", "imagen": "https://raw.githubusercontent.com/mirkoxoxo/Mirko-Angeles/main/canchitas_final.png", "fecha": "03/07/2024"},
+    {"titulo": "Camilón 🌭", "descripcion": "**OFERTA EXCLUSIVA**: Mostrando la página de *Cerkita Web* accederás a un 20% de descuento en toda nuestra carta, la cual incluye hamburguesas jugosas, salchipapas crujientes, pollo broaster irresistible y mucho más. 😱 ¡Disfruta de tu antojo favorito a un precio increíble! 😎", "imagen": "https://raw.githubusercontent.com/mirkoxoxo/Mirko-Angeles/main/camilón_final.png", "fecha": "03/07/2024"}
 ]
 
 df_promociones = pd.DataFrame(promociones)
@@ -118,6 +118,6 @@ st.markdown(
     <div class="footer">
         <img src="data:image/png;base64,{}" class="logo">
     </div>
-    """.format(st.image("/Users/mirkoxoxo/Documents/Cerkita/cerkitaweb_logo.png", use_column_width=True)),
+    """.format(st.image("https://raw.githubusercontent.com/mirkoxoxo/Mirko-Angeles/main/cerkitaweb_logo.png", use_column_width=True)),
     unsafe_allow_html=True
 )
