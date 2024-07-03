@@ -7,13 +7,15 @@ Original file is located at
     https://colab.research.google.com/drive/1iIo2jYmybNbwCAgMrNeyDTUf2UvEGonE
 """
 
-import pandas as pd
-import streamlit as st
-import geopandas as gpd
-import folium as fl
-from folium.plugins import MarkerCluster
-from streamlit_folium import st_folium
+#Paso 1: Importar las bibliotecas necesarias
+import streamlit as st # Este framework para el desarrollo de la interfaz de la página web
+import pandas as pd # Esta biblioteca para el análisis y manipulación de datos
+import geopandas as gpd # Esta biblioteca para el desarrollo de datos geoespaciales
+import folium as fl # Esta bibliotca para la visualización del mapa interactivo
+from folium.plugins import MarkerCluster # Importar MarkerCluster para ubicar los marcadores en el mapa interactivo
+from streamlit_folium import st_folium # Esta biblioteca para la visualización del mapa interactivo
 
+# Paso 2: Crear el codigo para personalizar el aspecto de la página web (color de fondo)
 st.markdown(
     """
     <style>
@@ -36,6 +38,7 @@ st.markdown(
     unsafe_allow_html=True
 )
 
+# Paso 2: Crear la base de datos con la información principal de los vendedores ambulantes con la biblioteca pandas
 data = {"nombre": ["Señor Bigotes 🍔", "Emolientando 🍶" ,"Canchitas por Samuel 🍿", "Camilon 🌭", "Morocho 🫐", "Yuquitas Doña Florinda 🧁"],
         "latitud": [-12.06861017065710, -12.068331914262530, -12.068928297764060, -12.069472609783920, -12.069817505441520, -12.070277921402420],
         "longitud": [-77.07747967098570, -77.07762186092730, -77.07765117725230, -77.07767675582580, -77.07770690533130, -77.07776229079620],
@@ -44,9 +47,10 @@ data = {"nombre": ["Señor Bigotes 🍔", "Emolientando 🍶" ,"Canchitas por Sa
         "horarios": ["Lunes a Viernes: 12:00 - 22:00", "Lunes a Sábado: 11:00 - 20:00", "Lunes a Domingos: 15:00 - 22:00", "Lunes a Viernes: 12:00 - 22:00", "Lunes a Sábado: 11:00 - 20:00", "Lunes a Domingos: 11:00 - 22:00"]
         }
 
-df = pd.DataFrame(data)
-df.to_csv('vendedores.csv', index=False)
+df = pd.DataFrame(data) # Crear un DataFrame a partir del diccionario
+df.to_csv('vendedores.csv', index=False) # Guardar el DataFrame en un archivo CSV
 
+# Paso 3: Crear la primera sección de la web (mensaje de bienvenida y apartado para la subscripción al newsletter)
 st.title("¡Bienvenido a *Cerkita Web*! 😃")
 st.write("Descubre los mejores sabores locales cerca de la **PUCP** sin complicaciones. Disfruta de auténtica comida callejera en un ambiente acogedor y lleno de energía. Nuestro sitio web te ayudará a encontrar rápidamente puestos de comida ambulante, ahorrándote tiempo y ofreciendo opciones para todos los bolsillos. Cada bocado cuenta una historia de tradición y pasión culinaria. ¡Sumérgete en esta experiencia única!")
 
@@ -59,67 +63,69 @@ email = st.text_input("Ingresa tu correo electrónico:")
 if st.button("Suscribirse"):
     if email:
         try:
-            df_correos = pd.read_csv('correos.csv')
+            df_correos = pd.read_csv('correos.csv') # Leer el archivo CSV y crear un DataFrame
             st.write("Archivo leído correctamente.")
         except FileNotFoundError:
-            df_correos = pd.DataFrame(columns=['correo'])
+            df_correos = pd.DataFrame(columns=['correo']) # Crear un DataFrame vacío
             st.write("Archivo no encontrado, creando nuevo DataFrame.")
 
         if email not in df_correos['correo'].values:
             nuevo_registro = pd.DataFrame([[email]], columns=['correo'])
             df_correos = pd.concat([df_correos, nuevo_registro], ignore_index=True)
-            df_correos.to_csv('correos.csv', index=False)
+            df_correos.to_csv('correos.csv', index=False) # Guardar el DataFrame en un archivo CSV
             st.success("¡Te has suscrito exitosamente! 🤗")
         else:
             st.warning("Ya estás suscrito 👍🏽")
     else:
         st.error("Por favor, ingresa un correo electrónico válido 😔")
 
+# Paso 4: Crear la segunda sección de la web (mapa digital interactivo con las ubicaciones de los vendedores)
 st.write("### CerkitaMap")
 st.write("Ubica tus puestos de comida ambulantes favoritos de una manera fácil")
 
-user_location = [-12.069444444444, -77.079444444444]
+user_location = [-12.069444444444, -77.079444444444] # Ubicación del usuario
 
-df = pd.read_csv('vendedores.csv')
+df = pd.read_csv('vendedores.csv') # Leer el archivo CSV y crear un DataFrame
 
-gdf = gpd.GeoDataFrame(df, geometry=gpd.points_from_xy(df.longitud, df.latitud))
+gdf = gpd.GeoDataFrame(df, geometry=gpd.points_from_xy(df.longitud, df.latitud)) # Crear un GeoDataFrame a partir del DataFrame
 
-m = fl.Map(location=[-12.069444444444, -77.079444444444], width="70%", height="70%", zoom_start=17)
+m = fl.Map(location=[-12.069444444444, -77.079444444444], width="70%", height="70%", zoom_start=17) # Crear el mapa interactivo
 
-fl.CircleMarker(user_location, radius=10, color='red', fill=True, fill_color='red').add_to(m)
+fl.CircleMarker(user_location, radius=10, color='red', fill=True, fill_color='red').add_to(m) # Agregar el marcador del usuario al mapa
 
-marker_cluster = MarkerCluster().add_to(m)
+marker_cluster = MarkerCluster().add_to(m) # Agregar el MarkerCluster al mapa
 
 for idx, row in df.iterrows():
     popup_text = f"<b>{row['nombre']}</b><br>{row['direccion']}<br>Comida: {row['tipo_comida']}<br>Horarios: {row['horarios']}"
-    fl.Marker([row['latitud'], row['longitud']], popup=popup_text).add_to(marker_cluster)
+    fl.Marker([row['latitud'], row['longitud']], popup=popup_text).add_to(marker_cluster) # Agregar los marcadores al MarkerCluster
 
-st_folium(m)
+st_folium(m) # Mostrar el mapa interactivo
 
+# Paso 5: Crear la tercera sección de la web (apartado de promociones)
 promociones = [
     {"titulo": "Señor Bigotes 🍔", "descripcion": "**OFERTA EXCLUSIVA**: Mostrando la página de *Cerkita Web* obtendrás un 50% de descuento en toda nuestra carta de hamburguesas. Además, si comprás más de dos hamburguesas, obtendras una botella de refrescante chicha morada totalmente **GRATIS**. ¡No dejes pasar esta oportunidad de disfrutar 😋 y ahorrar al máximo 🤑 !", "imagen": "https://raw.githubusercontent.com/mirkoxoxo/Mirko-Angeles/main/señor_bigotes_final.png", "fecha": "03/07/2024"},
     {"titulo": "Canchitas por Samuel 🍿", "descripcion": "**OFERTA EXCLUSIVA**: Mostrando la página de *Cerkita Web* disfrutarás de un 30% de descuento en todas nuestras deliciosas canchitas, tanto dulces como saladas. ¡Aprovecha esta oportunidad 😉 para saborear tus favoritas a un precio de locura!", "imagen": "https://raw.githubusercontent.com/mirkoxoxo/Mirko-Angeles/main/canchitas_final.png", "fecha": "03/07/2024"},
     {"titulo": "Camilón 🌭", "descripcion": "**OFERTA EXCLUSIVA**: Mostrando la página de *Cerkita Web* accederás a un 20% de descuento en toda nuestra carta, la cual incluye hamburguesas jugosas, salchipapas crujientes, pollo broaster irresistible y mucho más. 😱 ¡Disfruta de tu antojo favorito a un precio increíble! 😎", "imagen": "https://raw.githubusercontent.com/mirkoxoxo/Mirko-Angeles/main/camilón_final.png", "fecha": "03/07/2024"}
 ]
 
-df_promociones = pd.DataFrame(promociones)
+df_promociones = pd.DataFrame(promociones) # Crear un DataFrame a partir de la lista de diccionarios
 
-st.write("### Promociones ¡🤑!")
+st.write("### Promociones ¡🤑!") # Título de la sección de promociones
 
 for index, promocion in df_promociones.iterrows():
-    st.image(promocion['imagen'], width=500)
-    st.write(f"**{promocion['titulo']}**")
-    st.write(promocion['descripcion'])
-    st.write(f"*Fecha: {promocion['fecha']}*")
-    st.write("---")
+    st.image(promocion['imagen'], width=500) # Mostrar la imagen de la promoción
+    st.write(f"**{promocion['titulo']}**") # Mostrar el título de la promoción
+    st.write(promocion['descripcion']) # Mostrar la descripción de la promoción
+    st.write(f"*Fecha: {promocion['fecha']}*") # Mostrar la fecha de la promoción
+    st.write("---") # Separador entre las promociones
 
-st.image("https://raw.githubusercontent.com/mirkoxoxo/Mirko-Angeles/main/cerkitaweb_logo.png", width=100)
-
+# Paso 6: Crear la sección cierre de la web (logo de la marca)
 st.markdown(
     """
     <div class="footer">
         <img src="data:image/png;base64,{}" class="logo">
     </div>
-    """.format(st.image("https://raw.githubusercontent.com/mirkoxoxo/Mirko-Angeles/main/cerkitaweb_logo.png", use_column_width=True)),
+    """.format(st.image("/Users/mirkoxoxo/Documents/Cerkita/cerkitaweb_logo.png", use_column_width=True)),
     unsafe_allow_html=True
+) # Mostrar el logo de la marca
 )
